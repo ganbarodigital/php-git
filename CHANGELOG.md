@@ -5,3 +5,4 @@
 ### New
 
 * Added `Checks\IsGitRepo`
+* Added `Exceptions\Exxx_GitRepoException`
