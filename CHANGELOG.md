@@ -11,5 +11,6 @@
 * Added `Exceptions\E4xx_UnsupportedType`
 * Added `Exec\ExecInGitRepo`
 * Added `Requirements\RequireGitRepo`
+* Added `ValueBuilders\GetAllBranchesList`
 * Added `ValueBuilders\GetLocalBranchesList`
 * Added `ValueBuilders\GetRemoteBranchesList`
