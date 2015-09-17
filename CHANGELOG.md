@@ -12,3 +12,4 @@
 * Added `Exec\ExecInGitRepo`
 * Added `Requirements\RequireGitRepo`
 * Added `ValueBuilders\GetLocalBranchesList`
+* Added `ValueBuilders\GetRemoteBranchesList`
