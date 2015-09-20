@@ -90,7 +90,7 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('0.1.0', $result));
+        $this->assertEquals('0.1.0', $result['0.1.0']);
     }
 
     /**
@@ -113,6 +113,6 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('0.1.0', $result));
+        $this->assertEquals('0.1.0', $result['0.1.0']);
     }
 }

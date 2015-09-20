@@ -90,9 +90,9 @@ class GetAllBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('master', $result));
-        $this->assertTrue(in_array('develop', $result));
-        $this->assertTrue(in_array('origin/develop', $result));
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 
     /**
@@ -115,8 +115,8 @@ class GetAllBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('master', $result));
-        $this->assertTrue(in_array('develop', $result));
-        $this->assertTrue(in_array('origin/develop', $result));
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 }

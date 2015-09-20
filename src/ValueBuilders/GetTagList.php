@@ -60,11 +60,23 @@ class GetTagList
         $result = ExecInGitRepo::run($repoDir, ['git', 'tag']);
 
         // tidy up the returned text
-        $branches = explode(PHP_EOL, $result->getOutput(), -1);
-        $branches = ReplaceMatchingRegex::in($branches, '/^\\* /', '');
-        $branches = TrimWhitespace::from($branches);
+        $tags = self::parseOutput($result->getOutput());
+
+        // return a faster data structure
+        $tags = array_combine($tags, $tags);
 
         // all done
-        return $branches;
+        return $tags;
+    }
+
+    private static function parseOutput($output)
+    {
+        // tidy up the returned text
+        $tags = explode(PHP_EOL, $output, -1);
+        $tags = ReplaceMatchingRegex::in($tags, '/^\\* /', '');
+        $branches = TrimWhitespace::from($tags);
+
+        // all done
+        return $tags;
     }
 }

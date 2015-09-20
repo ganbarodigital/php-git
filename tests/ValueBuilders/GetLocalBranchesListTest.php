@@ -90,8 +90,8 @@ class GetLocalBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('master', $result));
-        $this->assertTrue(in_array('develop', $result));
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
     }
 
     /**
@@ -114,7 +114,7 @@ class GetLocalBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('master', $result));
-        $this->assertTrue(in_array('develop', $result));
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
     }
 }

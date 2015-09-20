@@ -90,7 +90,7 @@ class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('origin/develop', $result));
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 
     /**
@@ -113,6 +113,6 @@ class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertNotEmpty($result);
-        $this->assertTrue(in_array('origin/develop', $result));
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 }

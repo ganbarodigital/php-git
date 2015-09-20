@@ -60,11 +60,21 @@ class GetLocalBranchesList
         $result = ExecInGitRepo::run($repoDir, ['git', 'branch', '--no-color']);
 
         // tidy up the returned text
-        $branches = explode(PHP_EOL, $result->getOutput(), -1);
+        $branches = self::parseOutput($result->getOutput());
+
+        // make it faster for others to use
+        $branches = array_combine($branches, $branches);
+
+        // all done
+        return $branches;
+    }
+
+    private static function parseOutput($output)
+    {
+        $branches = explode(PHP_EOL, $output, -1);
         $branches = ReplaceMatchingRegex::in($branches, '/^\\* /', '');
         $branches = TrimWhitespace::from($branches);
 
-        // all done
         return $branches;
     }
 }
