@@ -2,6 +2,8 @@
 
 ## develop branch
 
+## 0.1.0 - Sun 20 Sep 2015
+
 ### New
 
 * Added `Checks\IsGitRepo`
