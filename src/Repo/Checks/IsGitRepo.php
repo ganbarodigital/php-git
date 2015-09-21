@@ -86,7 +86,7 @@ class IsGitRepo
             $repoDir . '/.git/refs/heads'
         ];
         foreach ($foldersToCheck as $folderToCheck) {
-            if (!IsFolder::checkString($folderToCheck)) {
+            if (!IsFolder::check($folderToCheck)) {
                 return false;
             }
         }
