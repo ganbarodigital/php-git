@@ -34,21 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/WorkingTree/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\WorkingTree\ValueBuilders;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\ValueBuilders\GetTagList
+ * @coversDefaultClass GanbaroDigital\Git\WorkingTree\ValueBuilders\GetCurrentBranch
  */
-class GetTagListTest extends PHPUnit_Framework_TestCase
+class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -61,12 +61,12 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new GetTagList;
+        $obj = new GetCurrentBranch;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof GetTagList);
+        $this->assertTrue($obj instanceof GetCurrentBranch);
     }
 
     /**
@@ -77,8 +77,8 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
-        $obj = new GetTagList;
+        $repoDir = realpath(__DIR__ . '/../../..');
+        $obj = new GetCurrentBranch;
 
         // ----------------------------------------------------------------
         // perform the change
@@ -88,9 +88,8 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue(is_array($result));
-        $this->assertNotEmpty($result);
-        $this->assertEquals('0.1.0', $result['0.1.0']);
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('develop', $result);
     }
 
     /**
@@ -101,18 +100,17 @@ class GetTagListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
+        $repoDir = realpath(__DIR__ . '/../../..');
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $result = GetTagList::from($repoDir);
+        $result = GetCurrentBranch::from($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue(is_array($result));
-        $this->assertNotEmpty($result);
-        $this->assertEquals('0.1.0', $result['0.1.0']);
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('develop', $result);
     }
 }

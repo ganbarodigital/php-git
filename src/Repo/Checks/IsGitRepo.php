@@ -34,34 +34,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/Checks
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\Checks;
 
-use GanbaroDigital\GitRepo\Exec\ExecInGitRepo;
-use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
-use GanbaroDigital\TextTools\Editors\TrimWhitespace;
+use GanbaroDigital\Filesystem\Checks\IsFolder;
 
-class GetAllBranchesList
+/**
+ * check that we're looking at a real Git repo
+ *
+ * This check has to be as strict as possible, and still be as fast as
+ * possible. This prevents us running the `git` command itself as part of
+ * our checks, as fork()-exec() is just too slow - especially if we're
+ * being called hundreds of times during the execution of a process!
+ */
+class IsGitRepo
 {
+    /**
+     * are we looking at a valid Git repo?
+     *
+     * @param  string $repoDir
+     *         path to the git repo to examine
+     * @return boolean
+     *         TRUE if we are
+     *         FALSE otherwise
+     */
     public function __invoke($repoDir)
     {
-        return self::from($repoDir);
+        return self::check($repoDir);
     }
 
-    public static function from($repoDir)
+    /**
+     * are we looking at a valid Git repo?
+     *
+     * @param  string $repoDir
+     *         path to the git repo to examine
+     * @return boolean
+     *         TRUE if we are
+     *         FALSE otherwise
+     */
+    public static function check($repoDir)
     {
-        $branches = array_merge(
-            GetLocalBranchesList::from($repoDir),
-            GetRemoteBranchesList::from($repoDir)
-        );
+        // we're going to check for the existence of all of these folders
+        $foldersToCheck = [
+            $repoDir,
+            $repoDir . '/.git/refs/heads'
+        ];
+        foreach ($foldersToCheck as $folderToCheck) {
+            if (!IsFolder::checkString($folderToCheck)) {
+                return false;
+            }
+        }
 
-        // all done
-        return $branches;
+        // if we get here, we've run out of ideas
+        return true;
     }
 }

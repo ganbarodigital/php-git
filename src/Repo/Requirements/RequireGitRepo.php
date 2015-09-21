@@ -34,48 +34,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/Requirements
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\Requirements;
 
-use GanbaroDigital\GitRepo\Exec\ExecInGitRepo;
-use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
-use GanbaroDigital\TextTools\Editors\TrimWhitespace;
+use GanbaroDigital\Git\Exceptions\E4xx_NotGitRepo;
+use GanbaroDigital\Git\Repo\Checks\IsGitRepo;
 
-class GetRemoteBranchesList
+class RequireGitRepo
 {
+    /**
+     * throws exceptions if we're not looking at a valid Git repo
+     *
+     * this is a wrapper around our IsGitRepo check
+     *
+     * @param  string $repoDir
+     *         path to the git repo to examine
+     * @return void
+     */
     public function __invoke($repoDir)
     {
-        return self::from($repoDir);
+        return self::check($repoDir);
     }
 
-    public static function from($repoDir)
+    /**
+     * throws exceptions if we're not looking at a valid Git repo
+     *
+     * this is a wrapper around our IsGitRepo check
+     *
+     * @param  string $repoDir
+     *         path to the git repo to examine
+     * @return void
+     */
+    public static function check($repoDir)
     {
-        // ask Git for the details
-        $result = ExecInGitRepo::run($repoDir, ['git', 'branch', '-r', '--no-color']);
-
-        // tidy up the returned text
-        $branches = self::parseOutput($result->getOutput());
-
-        // make it faster for others to use
-        $branches = array_combine($branches, $branches);
-
-        // all done
-        return $branches;
-    }
-
-    private static function parseOutput($output)
-    {
-        $branches = explode(PHP_EOL, $output, -1);
-        $branches = ReplaceMatchingRegex::in($branches, '/^\\* /', '');
-        $branches = TrimWhitespace::from($branches);
-
-        // all done
-        return $branches;
+        if (!IsGitRepo::check($repoDir)) {
+            throw new E4xx_NotGitRepo($repoDir);
+        }
     }
 }

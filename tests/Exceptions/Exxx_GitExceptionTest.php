@@ -34,86 +34,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exec
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exec;
+namespace GanbaroDigital\Git\Exceptions;
 
-use GanbaroDigital\ProcessRunner\Values\ProcessResult;
 use PHPUnit_Framework_TestCase;
+use RuntimeException;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\Exec\ExecInGitRepo
+ * @coversDefaultClass GanbaroDigital\Git\Exceptions\Exxx_GitException
  */
-class ExecInGitRepoTest extends PHPUnit_Framework_TestCase
+class Exxx_GitExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @coversNothing
+     * @covers ::__construct
      */
     public function testCanInstantiate()
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // ----------------------------------------------------------------
-        // perform the change
+        $expectedCode = 100;
+        $expectedMessage = "hello cruel world";
 
-        $obj = new ExecInGitRepo;
-
-        // ----------------------------------------------------------------
-        // test the results
-
-        $this->assertTrue($obj instanceof ExecInGitRepo);
-    }
-
-    /**
-     * @covers ::__invoke
-     */
-    public function testCanUseAsObject()
-    {
-        // ----------------------------------------------------------------
-        // setup your test
-
-        $repoDir = realpath(__DIR__ . '/../..');
-        $obj = new ExecInGitRepo;
-
-        // ----------------------------------------------------------------
-        // perform the change
-
-        $result = $obj($repoDir, ['git', 'status']);
+        $obj = new Exxx_GitException($expectedCode, $expectedMessage);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($result instanceof ProcessResult);
-        $this->assertEquals(0, $result->getReturnCode());
-        $this->assertNotEmpty($result->getOutput());
-    }
-
-    /**
-     * @covers ::run
-     */
-    public function testCanCallStatically()
-    {
-        // ----------------------------------------------------------------
-        // setup your test
-
-        $repoDir = realpath(__DIR__ . '/../..');
-
-        // ----------------------------------------------------------------
-        // perform the change
-
-        $result = ExecInGitRepo::run($repoDir, ['git', 'status']);
-
-        // ----------------------------------------------------------------
-        // test the results
-
-        $this->assertTrue($result instanceof ProcessResult);
-        $this->assertEquals(0, $result->getReturnCode());
-        $this->assertNotEmpty($result->getOutput());
+        $this->assertTrue($obj instanceof Exxx_GitException);
     }
 }

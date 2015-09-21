@@ -34,21 +34,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Checks
+ * @package   Git/Cli
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Checks;
+namespace GanbaroDigital\Git\Cli
 
+use GanbaroDigital\ProcessRunner\Values\ProcessResult;
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\Checks\isGitRepo
+ * @coversDefaultClass GanbaroDigital\Git\Cli\ExecGit
  */
-class IsGitRepoTest extends PHPUnit_Framework_TestCase
+class ExecGitTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -61,61 +62,58 @@ class IsGitRepoTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new IsGitRepo;
+        $obj = new ExecGit;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof IsGitRepo);
+        $this->assertTrue($obj instanceof ExecGit);
     }
 
     /**
      * @covers ::__invoke
-     * @dataProvider provideFoldersToTest
      */
-    public function testCanUseAsObject($repoDir, $expectedResult)
+    public function testCanUseAsObject()
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj = new IsGitRepo;
+        $repoDir = realpath(__DIR__ . '/../..');
+        $obj = new ExecGit;
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = $obj($repoDir);
+        $result = $obj($repoDir, ['git', 'status']);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertTrue($result instanceof ProcessResult);
+        $this->assertEquals(0, $result->getReturnCode());
+        $this->assertNotEmpty($result->getOutput());
     }
 
     /**
-     * @covers ::check
-     * @dataProvider provideFoldersToTest
+     * @covers ::run
      */
-    public function testCanCallStatically($repoDir, $expectedResult)
+    public function testCanCallStatically()
     {
         // ----------------------------------------------------------------
         // setup your test
 
+        $repoDir = realpath(__DIR__ . '/../..');
+
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = IsGitRepo::check($repoDir);
+        $result = ExecGit::run($repoDir, ['git', 'status']);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertEquals($expectedResult, $actualResult);
-    }
-
-    public function provideFoldersToTest()
-    {
-        return [
-            [ __DIR__, false ],
-            [ __DIR__ . '/../..', true ],
-        ];
+        $this->assertTrue($result instanceof ProcessResult);
+        $this->assertEquals(0, $result->getReturnCode());
+        $this->assertNotEmpty($result->getOutput());
     }
 }

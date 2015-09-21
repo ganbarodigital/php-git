@@ -34,14 +34,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Exceptions;
 
 use GanbaroDigital\Reflection\ValueBuilders\ConvertToString;
 
@@ -49,7 +49,7 @@ use GanbaroDigital\Reflection\ValueBuilders\ConvertToString;
  * exception thrown when we have not been given the path to the root folder
  * of a Git repository
  */
-class E4xx_NotGitRepo extends E4xx_GitRepoException
+class E4xx_NotGitRepo extends E4xx_GitException
 {
     /**
      * @param mixed $repoDir

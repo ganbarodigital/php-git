@@ -34,25 +34,49 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
-use RuntimeException;
-use GanbaroDigital\Exceptions\ExceptionMessageData;
+use GanbaroDigital\Git\Cli\ExecGit;
+use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
+use GanbaroDigital\TextTools\Editors\TrimWhitespace;
 
-class Exxx_GitRepoException extends RuntimeException
+class GetTagList
 {
-    use ExceptionMessageData;
-
-    public function __construct($code, $message, $data = array())
+    public function __invoke($repoDir)
     {
-        parent::__construct($message, $code);
-        $this->setMessageData($data);
+        return self::from($repoDir);
+    }
+
+    public static function from($repoDir)
+    {
+        // ask Git for the details
+        $result = ExecGit::run($repoDir, ['git', 'tag']);
+
+        // tidy up the returned text
+        $tags = self::parseOutput($result->getOutput());
+
+        // return a faster data structure
+        $tags = array_combine($tags, $tags);
+
+        // all done
+        return $tags;
+    }
+
+    private static function parseOutput($output)
+    {
+        // tidy up the returned text
+        $tags = explode(PHP_EOL, $output, -1);
+        $tags = ReplaceMatchingRegex::in($tags, '/^\\* /', '');
+        $branches = TrimWhitespace::from($tags);
+
+        // all done
+        return $tags;
     }
 }

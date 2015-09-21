@@ -34,19 +34,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\ValueBuilders\GetLocalBranchesList
+ * @coversDefaultClass GanbaroDigital\Git\Repo\ValueBuilders\GetLocalBranchesList
  */
 class GetLocalBranchesListTest extends PHPUnit_Framework_TestCase
 {
@@ -77,7 +77,7 @@ class GetLocalBranchesListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
+        $repoDir = realpath(__DIR__ . '/../../..');
         $obj = new GetLocalBranchesList;
 
         // ----------------------------------------------------------------
@@ -102,7 +102,7 @@ class GetLocalBranchesListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
+        $repoDir = realpath(__DIR__ . '/../../..');
 
         // ----------------------------------------------------------------
         // perform the change

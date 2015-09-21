@@ -34,47 +34,58 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitModule/Requirements
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Requirements;
+namespace GanbaroDigital\Git\Exceptions;
 
-use GanbaroDigital\GitRepo\Checks\IsGitRepo;
-use GanbaroDigital\GitRepo\Exceptions\E4xx_NotGitRepo;
+use PHPUnit_Framework_TestCase;
+use RuntimeException;
 
-class RequireGitRepo
+/**
+ * @coversDefaultClass GanbaroDigital\Git\Exceptions\E4xx_GitException
+ */
+class E4xx_GitExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * throws exceptions if we're not looking at a valid Git repo
-     *
-     * this is a wrapper around our IsGitRepo check
-     *
-     * @param  string $repoDir
-     *         path to the git repo to examine
-     * @return void
+     * @covers ::__construct
      */
-    public function __invoke($repoDir)
+    public function testCanInstantiate()
     {
-        return self::check($repoDir);
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedCode = 100;
+        $expectedMessage = "hello cruel world";
+
+        $obj = new E4xx_GitException($expectedCode, $expectedMessage);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof E4xx_GitException);
     }
 
     /**
-     * throws exceptions if we're not looking at a valid Git repo
-     *
-     * this is a wrapper around our IsGitRepo check
-     *
-     * @param  string $repoDir
-     *         path to the git repo to examine
-     * @return void
+     * @covers ::__construct
      */
-    public static function check($repoDir)
+    public function testExtendsExxx_GitException()
     {
-        if (!IsGitRepo::check($repoDir)) {
-            throw new E4xx_NotGitRepo($repoDir);
-        }
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedCode = 100;
+        $expectedMessage = "hello cruel world";
+
+        $obj = new E4xx_GitException($expectedCode, $expectedMessage);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Exxx_GitException);
     }
 }

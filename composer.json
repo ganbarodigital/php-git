@@ -1,5 +1,5 @@
 {
-    "name": "ganbarodigital/php-git-repo",
+    "name": "ganbarodigital/php-git",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GanbaroDigital\\GitRepo\\": "src"
+            "GanbaroDigital\\Git\\": "src"
         }
     }
 }

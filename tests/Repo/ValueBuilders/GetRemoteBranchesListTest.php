@@ -34,21 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\ValueBuilders\GetCurrentBranch
+ * @coversDefaultClass GanbaroDigital\Git\Repo\ValueBuilders\GetRemoteBranchesList
  */
-class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
+class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -61,12 +61,12 @@ class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new GetCurrentBranch;
+        $obj = new GetRemoteBranchesList;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof GetCurrentBranch);
+        $this->assertTrue($obj instanceof GetRemoteBranchesList);
     }
 
     /**
@@ -77,8 +77,8 @@ class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
-        $obj = new GetCurrentBranch;
+        $repoDir = realpath(__DIR__ . '/../../..');
+        $obj = new GetRemoteBranchesList;
 
         // ----------------------------------------------------------------
         // perform the change
@@ -88,8 +88,9 @@ class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue(is_string($result));
-        $this->assertEquals('develop', $result);
+        $this->assertTrue(is_array($result));
+        $this->assertNotEmpty($result);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 
     /**
@@ -100,17 +101,18 @@ class GetCurrentBranchTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
+        $repoDir = realpath(__DIR__ . '/../../..');
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $result = GetCurrentBranch::from($repoDir);
+        $result = GetRemoteBranchesList::from($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue(is_string($result));
-        $this->assertEquals('develop', $result);
+        $this->assertTrue(is_array($result));
+        $this->assertNotEmpty($result);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 }

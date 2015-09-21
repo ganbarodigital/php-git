@@ -34,21 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Requirements
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Requirements;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\Requirements\RequireGitRepo
+ * @coversDefaultClass GanbaroDigital\Git\Repo\ValueBuilders\GetAllBranchesList
  */
-class RequireGitRepoTest extends PHPUnit_Framework_TestCase
+class GetAllBranchesListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -61,12 +61,12 @@ class RequireGitRepoTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new RequireGitRepo;
+        $obj = new GetAllBranchesList;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof RequireGitRepo);
+        $this->assertTrue($obj instanceof GetAllBranchesList);
     }
 
     /**
@@ -77,60 +77,46 @@ class RequireGitRepoTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj = new RequireGitRepo;
-        $repoDir = realpath(__DIR__ . '/../..');
+        $repoDir = realpath(__DIR__ . '/../../..');
+        $obj = new GetAllBranchesList;
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj($repoDir);
+        $result = $obj($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
-        //
-        // if we get here without an exception, the test has passed
+
+        $this->assertTrue(is_array($result));
+        $this->assertNotEmpty($result);
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 
     /**
-     * @covers ::check
+     * @covers ::from
      */
     public function testCanCallStatically()
     {
         // ----------------------------------------------------------------
         // setup your test
 
+        $repoDir = realpath(__DIR__ . '/../../..');
+
         // ----------------------------------------------------------------
         // perform the change
 
-        RequireGitRepo::check(realpath(__DIR__ . '/../..'));
+        $result = GetAllBranchesList::from($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
-        //
-        // if we get here without an exception, the test has passed
-    }
 
-    /**
-     * @covers ::check
-     * @expectedException GanbaroDigital\GitRepo\Exceptions\E4xx_NotGitRepo
-     */
-    public function testThrowsExceptionWhenGivenAFolderOutsideGitRepo()
-    {
-        // ----------------------------------------------------------------
-        // setup your test
-        //
-        // we need a system folder, because it's certain to be a non-git
-        // repo
-        if (is_dir("/usr")) {
-            $repoDir = "/usr";
-        }
-        else if (is_dir("c:\\")) {
-            $repoDir = "c:\\";
-        }
-
-        // ----------------------------------------------------------------
-        // perform the change
-
-        RequireGitRepo::check($repoDir);
+        $this->assertTrue(is_array($result));
+        $this->assertNotEmpty($result);
+        $this->assertEquals('master', $result['master']);
+        $this->assertEquals('develop', $result['develop']);
+        $this->assertEquals('origin/develop', $result['origin/develop']);
     }
 }

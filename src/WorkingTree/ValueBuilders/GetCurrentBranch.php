@@ -34,20 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/WorkingTree/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\WorkingTree\ValueBuilders;
 
-use GanbaroDigital\GitRepo\Exec\ExecInGitRepo;
+use GanbaroDigital\Git\Cli\ExecGit;
 use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
 use GanbaroDigital\TextTools\Editors\TrimWhitespace;
+use GanbaroDigital\TextTools\Filters\FilterForMatchingRegex;
 
-class GetTagList
+class GetCurrentBranch
 {
     public function __invoke($repoDir)
     {
@@ -57,26 +58,15 @@ class GetTagList
     public static function from($repoDir)
     {
         // ask Git for the details
-        $result = ExecInGitRepo::run($repoDir, ['git', 'tag']);
+        $result = ExecGit::run($repoDir, ['git', 'branch', '--no-color']);
 
         // tidy up the returned text
-        $tags = self::parseOutput($result->getOutput());
-
-        // return a faster data structure
-        $tags = array_combine($tags, $tags);
-
-        // all done
-        return $tags;
-    }
-
-    private static function parseOutput($output)
-    {
-        // tidy up the returned text
-        $tags = explode(PHP_EOL, $output, -1);
-        $tags = ReplaceMatchingRegex::in($tags, '/^\\* /', '');
-        $branches = TrimWhitespace::from($tags);
+        $branch = explode(PHP_EOL, $result->getOutput(), -1);
+        $branch = FilterForMatchingRegex::against($branch, '/^[* ]/');
+        $branch = ReplaceMatchingRegex::in($branch, '/^\\* /', '');
+        $branch = TrimWhitespace::from($branch);
 
         // all done
-        return $tags;
+        return $branch[0];
     }
 }

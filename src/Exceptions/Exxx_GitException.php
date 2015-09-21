@@ -34,39 +34,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Exceptions;
 
-use PHPUnit_Framework_TestCase;
 use RuntimeException;
+use GanbaroDigital\Exceptions\ExceptionMessageData;
 
-/**
- * @coversDefaultClass GanbaroDigital\GitRepo\Exceptions\Exxx_GitRepoException
- */
-class Exxx_GitRepoExceptionTest extends PHPUnit_Framework_TestCase
+class Exxx_GitException extends RuntimeException
 {
-    /**
-     * @covers ::__construct
-     */
-    public function testCanInstantiate()
+    use ExceptionMessageData;
+
+    public function __construct($code, $message, $data = array())
     {
-        // ----------------------------------------------------------------
-        // setup your test
-
-        $expectedCode = 100;
-        $expectedMessage = "hello cruel world";
-
-        $obj = new Exxx_GitRepoException($expectedCode, $expectedMessage);
-
-        // ----------------------------------------------------------------
-        // test the results
-
-        $this->assertTrue($obj instanceof Exxx_GitRepoException);
+        parent::__construct($message, $code);
+        $this->setMessageData($data);
     }
 }

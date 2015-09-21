@@ -34,21 +34,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
-use GanbaroDigital\GitRepo\Exec\ExecInGitRepo;
+use GanbaroDigital\Git\Cli\ExecGit;
 use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
 use GanbaroDigital\TextTools\Editors\TrimWhitespace;
-use GanbaroDigital\TextTools\Filters\FilterForMatchingRegex;
 
-class GetCurrentBranch
+class GetLocalBranchesList
 {
     public function __invoke($repoDir)
     {
@@ -58,15 +57,24 @@ class GetCurrentBranch
     public static function from($repoDir)
     {
         // ask Git for the details
-        $result = ExecInGitRepo::run($repoDir, ['git', 'branch', '--no-color']);
+        $result = ExecGit::run($repoDir, ['git', 'branch', '--no-color']);
 
         // tidy up the returned text
-        $branch = explode(PHP_EOL, $result->getOutput(), -1);
-        $branch = FilterForMatchingRegex::against($branch, '/^[* ]/');
-        $branch = ReplaceMatchingRegex::in($branch, '/^\\* /', '');
-        $branch = TrimWhitespace::from($branch);
+        $branches = self::parseOutput($result->getOutput());
+
+        // make it faster for others to use
+        $branches = array_combine($branches, $branches);
 
         // all done
-        return $branch[0];
+        return $branches;
+    }
+
+    private static function parseOutput($output)
+    {
+        $branches = explode(PHP_EOL, $output, -1);
+        $branches = ReplaceMatchingRegex::in($branches, '/^\\* /', '');
+        $branches = TrimWhitespace::from($branches);
+
+        return $branches;
     }
 }

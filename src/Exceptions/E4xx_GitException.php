@@ -34,64 +34,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Checks
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Checks;
+namespace GanbaroDigital\Git\Exceptions;
 
-use GanbaroDigital\Filesystem\Checks\IsFolder;
-
-/**
- * check that we're looking at a real Git repo
- *
- * This check has to be as strict as possible, and still be as fast as
- * possible. This prevents us running the `git` command itself as part of
- * our checks, as fork()-exec() is just too slow - especially if we're
- * being called hundreds of times during the execution of a process!
- */
-class IsGitRepo
+class E4xx_GitException extends Exxx_GitException
 {
-    /**
-     * are we looking at a valid Git repo?
-     *
-     * @param  string $repoDir
-     *         path to the git repo to examine
-     * @return boolean
-     *         TRUE if we are
-     *         FALSE otherwise
-     */
-    public function __invoke($repoDir)
-    {
-        return self::check($repoDir);
-    }
-
-    /**
-     * are we looking at a valid Git repo?
-     *
-     * @param  string $repoDir
-     *         path to the git repo to examine
-     * @return boolean
-     *         TRUE if we are
-     *         FALSE otherwise
-     */
-    public static function check($repoDir)
-    {
-        // we're going to check for the existence of all of these folders
-        $foldersToCheck = [
-            $repoDir,
-            $repoDir . '/.git/refs/heads'
-        ];
-        foreach ($foldersToCheck as $folderToCheck) {
-            if (!IsFolder::checkString($folderToCheck)) {
-                return false;
-            }
-        }
-
-        // if we get here, we've run out of ideas
-        return true;
-    }
 }

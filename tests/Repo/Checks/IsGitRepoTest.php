@@ -34,58 +34,88 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Repo/Checks
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Repo\Checks;
 
 use PHPUnit_Framework_TestCase;
-use RuntimeException;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\Exceptions\E4xx_GitRepoException
+ * @coversDefaultClass GanbaroDigital\Git\Repo\Checks\isGitRepo
  */
-class E4xx_GitRepoExceptionTest extends PHPUnit_Framework_TestCase
+class IsGitRepoTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::__construct
+     * @coversNothing
      */
     public function testCanInstantiate()
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        $expectedCode = 100;
-        $expectedMessage = "hello cruel world";
+        // ----------------------------------------------------------------
+        // perform the change
 
-        $obj = new E4xx_GitRepoException($expectedCode, $expectedMessage);
+        $obj = new IsGitRepo;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof E4xx_GitRepoException);
+        $this->assertTrue($obj instanceof IsGitRepo);
     }
 
     /**
-     * @covers ::__construct
+     * @covers ::__invoke
+     * @dataProvider provideFoldersToTest
      */
-    public function testExtendsExxx_GitRepoException()
+    public function testCanUseAsObject($repoDir, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        $expectedCode = 100;
-        $expectedMessage = "hello cruel world";
+        $obj = new IsGitRepo;
 
-        $obj = new E4xx_GitRepoException($expectedCode, $expectedMessage);
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof Exxx_GitRepoException);
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @covers ::check
+     * @dataProvider provideFoldersToTest
+     */
+    public function testCanCallStatically($repoDir, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = IsGitRepo::check($repoDir);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    public function provideFoldersToTest()
+    {
+        return [
+            [ __DIR__, false ],
+            [ __DIR__ . '/../../..', true ],
+        ];
     }
 }

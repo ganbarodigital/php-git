@@ -34,21 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/ValueBuilders
+ * @package   Git/Repo/Requirements
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\ValueBuilders;
+namespace GanbaroDigital\Git\Repo\Requirements;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\ValueBuilders\GetRemoteBranchesList
+ * @coversDefaultClass GanbaroDigital\Git\Repo\Requirements\RequireGitRepo
  */
-class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
+class RequireGitRepoTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -61,12 +61,12 @@ class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new GetRemoteBranchesList;
+        $obj = new RequireGitRepo;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof GetRemoteBranchesList);
+        $this->assertTrue($obj instanceof RequireGitRepo);
     }
 
     /**
@@ -77,42 +77,60 @@ class GetRemoteBranchesListTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
-        $obj = new GetRemoteBranchesList;
+        $obj = new RequireGitRepo;
+        $repoDir = realpath(__DIR__ . '/../../..');
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $result = $obj($repoDir);
+        $obj($repoDir);
 
         // ----------------------------------------------------------------
         // test the results
-
-        $this->assertTrue(is_array($result));
-        $this->assertNotEmpty($result);
-        $this->assertEquals('origin/develop', $result['origin/develop']);
+        //
+        // if we get here without an exception, the test has passed
     }
 
     /**
-     * @covers ::from
+     * @covers ::check
      */
     public function testCanCallStatically()
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        $repoDir = realpath(__DIR__ . '/../..');
+        // ----------------------------------------------------------------
+        // perform the change
+
+        RequireGitRepo::check(realpath(__DIR__ . '/../../..'));
+
+        // ----------------------------------------------------------------
+        // test the results
+        //
+        // if we get here without an exception, the test has passed
+    }
+
+    /**
+     * @covers ::check
+     * @expectedException GanbaroDigital\Git\Exceptions\E4xx_NotGitRepo
+     */
+    public function testThrowsExceptionWhenGivenAFolderOutsideGitRepo()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+        //
+        // we need a system folder, because it's certain to be a non-git
+        // repo
+        if (is_dir("/usr")) {
+            $repoDir = "/usr";
+        }
+        else if (is_dir("c:\\")) {
+            $repoDir = "c:\\";
+        }
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $result = GetRemoteBranchesList::from($repoDir);
-
-        // ----------------------------------------------------------------
-        // test the results
-
-        $this->assertTrue(is_array($result));
-        $this->assertNotEmpty($result);
-        $this->assertEquals('origin/develop', $result['origin/develop']);
+        RequireGitRepo::check($repoDir);
     }
 }

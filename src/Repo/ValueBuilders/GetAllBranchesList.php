@@ -34,15 +34,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-git-repo
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
-class E4xx_GitRepoException extends Exxx_GitRepoException
+class GetAllBranchesList
 {
+    public function __invoke($repoDir)
+    {
+        return self::from($repoDir);
+    }
+
+    public static function from($repoDir)
+    {
+        $branches = array_merge(
+            GetLocalBranchesList::from($repoDir),
+            GetRemoteBranchesList::from($repoDir)
+        );
+
+        // all done
+        return $branches;
+    }
 }

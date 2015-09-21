@@ -34,59 +34,48 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exec
+ * @package   Git/Repo/ValueBuilders
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-git-repo
  */
 
-namespace GanbaroDigital\GitRepo\Exec;
+namespace GanbaroDigital\Git\Repo\ValueBuilders;
 
-use GanbaroDigital\EventStream\Streams\EventStream;
-use GanbaroDigital\GitRepo\Exceptions\E4xx_UnsupportedType;
-use GanbaroDigital\GitRepo\Requirements\RequireGitRepo;
-use GanbaroDigital\ProcessRunner\ProcessRunners\PopenProcessRunner;
-use GnabaroDigital\ProcessRunner\Values\ProcessResult;
-use Traversable;
+use GanbaroDigital\Git\Cli\ExecGit;
+use GanbaroDigital\TextTools\Editors\ReplaceMatchingRegex;
+use GanbaroDigital\TextTools\Editors\TrimWhitespace;
 
-class ExecInGitRepo
+class GetRemoteBranchesList
 {
-    /**
-     * run a git command inside a local Git repository
-     *
-     * @param  string $repoDir
-     *         the location of the Git repo
-     * @param  array|Traversable $command
-     *         the command to run
-     * @param  EventStream|null $eventStream
-     *         the (optional) stream to send events to
-     * @return ProcessResult
-     *         the result of running the command
-     */
-    public function __invoke($repoDir, $command, EventStream $eventStream = null)
+    public function __invoke($repoDir)
     {
-        return self::run($repoDir, $command);
+        return self::from($repoDir);
     }
 
-    /**
-     * run a git command inside a local Git repository
-     *
-     * @param  string $repoDir
-     *         the location of the Git repo
-     * @param  array|Traversable $command
-     *         the command to run
-     * @param  EventStream|null $eventStream
-     *         the (optional) stream to send events to
-     * @return ProcessResult
-     *         the result of running the command
-     */
-    public static function run($repoDir, $command, EventStream $eventStream = null)
+    public static function from($repoDir)
     {
-        // defensive programming!
-        RequireGitRepo::check($repoDir);
+        // ask Git for the details
+        $result = ExecGit::run($repoDir, ['git', 'branch', '-r', '--no-color']);
 
-        // run the command
-        return PopenProcessRunner::run($command, null, $repoDir, $eventStream);
+        // tidy up the returned text
+        $branches = self::parseOutput($result->getOutput());
+
+        // make it faster for others to use
+        $branches = array_combine($branches, $branches);
+
+        // all done
+        return $branches;
+    }
+
+    private static function parseOutput($output)
+    {
+        $branches = explode(PHP_EOL, $output, -1);
+        $branches = ReplaceMatchingRegex::in($branches, '/^\\* /', '');
+        $branches = TrimWhitespace::from($branches);
+
+        // all done
+        return $branches;
     }
 }

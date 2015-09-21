@@ -34,21 +34,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   GitRepo/Exceptions
+ * @package   Git/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link      http://code.ganbarodigital.com/php-event-stream
+ * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\GitRepo\Exceptions;
+namespace GanbaroDigital\Git\Exceptions;
 
 use PHPUnit_Framework_TestCase;
 use RuntimeException;
 use stdClass;
 
 /**
- * @coversDefaultClass GanbaroDigital\GitRepo\Exceptions\E4xx_UnsupportedType
+ * @coversDefaultClass GanbaroDigital\Git\Exceptions\E4xx_UnsupportedType
  */
 class E4xx_UnsupportedTypeTest extends PHPUnit_Framework_TestCase
 {
@@ -76,7 +76,7 @@ class E4xx_UnsupportedTypeTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      */
-    public function testIsE4xx_GitRepoException()
+    public function testIsE4xx_GitException()
     {
         // ----------------------------------------------------------------
         // setup your test
@@ -91,13 +91,13 @@ class E4xx_UnsupportedTypeTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof E4xx_GitRepoException);
+        $this->assertTrue($obj instanceof E4xx_GitException);
     }
 
     /**
      * @covers ::__construct
      */
-    public function testIsExxx_GitRepoException()
+    public function testIsExxx_GitException()
     {
         // ----------------------------------------------------------------
         // setup your test
@@ -112,7 +112,7 @@ class E4xx_UnsupportedTypeTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof Exxx_GitRepoException);
+        $this->assertTrue($obj instanceof Exxx_GitException);
     }
 
     /**
