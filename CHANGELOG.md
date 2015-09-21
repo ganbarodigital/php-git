@@ -26,8 +26,9 @@ Old Name | New Name
 
 ### New
 
-* Added `ValueBuilders\GetCurrentBranch`
-* Added `ValueBuilders\GetTagList`
+* Added `Repo\Checks\HasLocalBranch`
+* Added `Repo\ValueBuilders\GetTagList`
+* Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
 ### Fixes
 
