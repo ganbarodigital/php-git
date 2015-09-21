@@ -41,7 +41,7 @@
  * @link      http://code.ganbarodigital.com/php-git
  */
 
-namespace GanbaroDigital\Git\Cli
+namespace GanbaroDigital\Git\Cli;
 
 use GanbaroDigital\ProcessRunner\Values\ProcessResult;
 use PHPUnit_Framework_TestCase;
