@@ -2,6 +2,28 @@
 
 ## develop branch
 
+### Backwards-Compatibility Breaks
+
+Split the namespaces up into:
+
+* Cli - support for the Git command-line tool
+* Repo - operations on the Git repository
+* WorkingTree - operations on the working tree (i.e. on checked-out files and branches)
+
+As a result, the following classes have been renamed:
+
+Old Name | New Name
+---------|----------
+`Checks\IsGitRepo` | `Repo\Checks\IsGitRepo`
+`Exec\ExecInGitRepo` | `Cli\ExecGit`
+`Requirements\RequireGitRepo` | `Repo\Requirements\RequireGitRepo`
+`ValueBuilders\GetAllBranchesList` | `Repo\ValueBuilders\GetAllBranchesList`
+`ValueBuilders\GetCurrentBranch` | `WorkingTree\ValueBuilders\GetCurrentBranch`
+`ValueBuilders\GetLocalBranchesList` | `Repo\ValueBuilders\GetLocalBranchesList`
+
+`ValueBuilders\GetRemoteBranchesList` | `Repo\ValueBuilders\GetRemoteBranchesList`
+`ValueBuilders\GetTagList` | `Repo\ValueBuilders\GetTagList`
+
 ### New
 
 * Added `ValueBuilders\GetCurrentBranch`
