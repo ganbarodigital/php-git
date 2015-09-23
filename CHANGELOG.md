@@ -31,6 +31,7 @@ Old Name | New Name
 * Added `Repo\Checks\HasTag`
 * Added `Repo\Editors\AddRemote`
 * Added `Repo\Transfers\ForcePush`
+* Added `Repo\ValueBuilders\GetGitConfig`
 * Added `Repo\ValueBuilders\GetTagList`
 * Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
