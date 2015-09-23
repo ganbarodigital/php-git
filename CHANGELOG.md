@@ -29,6 +29,7 @@ Old Name | New Name
 * Added `Repo\Checks\HasLocalBranch`
 * Added `Repo\Checks\HasRemoteBranch`
 * Added `Repo\Checks\HasTag`
+* Added `Repo\Transfers\ForcePush`
 * Added `Repo\ValueBuilders\GetTagList`
 * Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
