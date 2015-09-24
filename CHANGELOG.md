@@ -33,6 +33,7 @@ Old Name | New Name
 * Added `Repo\Transfers\ForcePush`
 * Added `Repo\ValueBuilders\GetGitConfig`
 * Added `Repo\ValueBuilders\GetTagList`
+* Added `WorkingTree\Checks\IsCleanWorkingTree`
 * Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
 ### Fixes
