@@ -36,6 +36,7 @@ Old Name | New Name
 * Added `WorkingTree\Checks\HasModifiedFiles`
 * Added `WorkingTree\Checks\HasStagedFiles`
 * Added `WorkingTree\Checks\IsCleanWorkingTree`
+* Added `WorkingTree\Checks\IsHeadless`
 * Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
 ### Fixes
