@@ -34,6 +34,7 @@ Old Name | New Name
 * Added `Repo\ValueBuilders\GetGitConfig`
 * Added `Repo\ValueBuilders\GetTagList`
 * Added `WorkingTree\Checks\HasModifiedFiles`
+* Added `WorkingTree\Checks\HasStagedFiles`
 * Added `WorkingTree\Checks\IsCleanWorkingTree`
 * Added `WorkingTree\ValueBuilders\GetCurrentBranch`
 
